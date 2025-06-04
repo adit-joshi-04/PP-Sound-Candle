@@ -44,11 +44,28 @@ function setup() {
 function draw() {
   
   background('#FFD60D');
+
+  let cakeY;
+  let fireYOffset;
+  let cakeWidth;
+
+
+  if(isMobileLayout()) {
+    cakeY = 330;
+    fireYOffset = 80;
+    cakeWidth = 450;
+  } else {
+    cakeY = 300;
+    fireYOffset = 0;
+    cakeWidth = 587;
+  }
+
+  let cakeHeight = cakeWidth * 1.097;
   
   push();
   translate(width/2, height/2.5);
   imageMode(CENTER);
-  image(candle, 0, 300);
+  image(candle, 0, cakeY, cakeWidth, cakeHeight);
   pop();
   
   if (particles.length > MAX_PARTICLES) {
@@ -90,7 +107,7 @@ function draw() {
   push();
 
   imageMode(CORNER);
-  image(fire, -fireSize / 2, -fireSize, fireSize, fireSize * 1.28);
+  image(fire, -fireSize / 2, -fireSize + fireYOffset, fireSize, fireSize * 1.28);
   pop();
 }
 
@@ -130,4 +147,8 @@ function createParticle() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+function isMobileLayout() {
+  return windowWidth < 700 || windowHeight < 700;
 }
