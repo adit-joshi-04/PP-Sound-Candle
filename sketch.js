@@ -101,13 +101,13 @@ function draw() {
   // Allow respawn if volume is enough
   shouldRespawnParticles = spawnRate > 0.5;
 
-  translate(width / 2, height / 2.5);  
+  translate(width / 2, height / 2.5 + fireYOffset);  
   runParticles();
 
   push();
 
   imageMode(CORNER);
-  image(fire, -fireSize / 2, -fireSize + fireYOffset, fireSize, fireSize * 1.28);
+  image(fire, -fireSize / 2, -fireSize, fireSize, fireSize * 1.28);
   pop();
 }
 
