@@ -29,6 +29,8 @@ function preload() {
 
 function setup() {
 
+  createCanvas(windowWidth, windowHeight);
+
   mic = new p5.AudioIn();
   mic.start();
   
@@ -40,7 +42,7 @@ function setup() {
 }
 
 function draw() {
-  createCanvas(windowWidth, windowHeight);
+  
   background('#FFD60D');
   
   push();
@@ -124,4 +126,8 @@ function createParticle() {
     speed: random(speedRange.min, speedRange.max),
     trail: []
   };
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
