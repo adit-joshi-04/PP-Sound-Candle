@@ -21,6 +21,17 @@ let easing = 0.05; // between 0.05 and 0.15
 let volumeThreshold = 0.02; 
 
 let happy;
+let startBtn;
+
+let started = false;
+
+window.addEventListener("DOMContentLoaded", () => {
+  
+
+  document.querySelector('.mic').addEventListener("touchstart", () => {
+    mousePressed();
+  });
+});
 
 function preload() {
   fire = loadImage("fire.png");
@@ -32,83 +43,98 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   mic = new p5.AudioIn();
-  mic.start();
+  //mic.start();
   
   
   
   imageMode(CENTER);
   happy = document.querySelector('.happy');
   subtext = document.querySelector('.subtext');
+  startBtn = document.querySelector('.mic');
+  slider = document.querySelector('.slider-container');
+
 }
 
 function draw() {
-  
-  background('#FFD60D');
+  if (started) {  
+    background('#FFD60D');
 
-  let cakeY;
-  let fireYOffset;
-  let cakeWidth;
+    happy.style.visibility = "visible";
+    subtext.style.visibility = "visible";
+    startBtn.style.visibility = "hidden";
+    slider.style.visibility = "visible";
+
+    let cakeY;
+    let fireYOffset;
+    let cakeWidth;
 
 
-  if(isMobileLayout()) {
-    cakeY = 330;
-    fireYOffset = 80;
-    cakeWidth = 450;
+    if(isMobileLayout()) {
+      cakeY = 330;
+      fireYOffset = 80;
+      cakeWidth = 450;
+    } else {
+      cakeY = 300;
+      fireYOffset = 0;
+      cakeWidth = 587;
+    }
+
+    let cakeHeight = cakeWidth * 1.097;
+    
+    push();
+    translate(width/2, height/2.5);
+    imageMode(CENTER);
+    image(candle, 0, cakeY, cakeWidth, cakeHeight);
+    pop();
+    
+    if (particles.length > MAX_PARTICLES) {
+      particles.splice(0, particles.length - MAX_PARTICLES);
+    }
+    
+    sensitivity = document.querySelector('#sensitivity').value;
+    sens = map(sensitivity, 0, 1, 0.1, 0.5);
+    
+    let rawVol = mic.getLevel() * 1.2;       // raw mic volume
+    smoothedVol = lerp(smoothedVol, rawVol, easing); // eased version
+    // fireSize = map(smoothedVol, 0, sens, 50, 150, true);
+    fireSize = 75;
+    //text(smoothedVol.toFixed(4), 100, 100);
+
+    let spawnRate = 0;
+    if (smoothedVol > volumeThreshold) {
+      spawnRate = map(smoothedVol, volumeThreshold, sens, 0, 2, true); // Now uses threshold as the new "zero"
+    }
+    particleAccumulator += spawnRate;
+
+    // 🔄 Spawn whole particles based on accumulated float
+    while (particleAccumulator >= 1 && particles.length < MAX_PARTICLES) {
+      particles.push(createParticle());
+      particleAccumulator -= 1;
+    }
+
+    if (particles.length > 70) {
+      happy.textContent = "Wish granted.";
+      subtext.textContent = "New website launching soon!"
+    }
+
+    // Allow respawn if volume is enough
+    shouldRespawnParticles = spawnRate > 0.5;
+
+    translate(width / 2, height / 2.5 + fireYOffset);  
+    runParticles();
+
+    push();
+
+    imageMode(CORNER);
+    image(fire, -fireSize / 2, -fireSize, fireSize, fireSize * 1.28);
+    pop();
   } else {
-    cakeY = 300;
-    fireYOffset = 0;
-    cakeWidth = 587;
+    background('#FFD60D');
+    happy.style.visibility = "hidden";
+    subtext.style.visibility = "hidden";
+    startBtn.style.visibility = "visible";
+    slider.style.visibility = "hidden";
   }
-
-  let cakeHeight = cakeWidth * 1.097;
-  
-  push();
-  translate(width/2, height/2.5);
-  imageMode(CENTER);
-  image(candle, 0, cakeY, cakeWidth, cakeHeight);
-  pop();
-  
-  if (particles.length > MAX_PARTICLES) {
-    particles.splice(0, particles.length - MAX_PARTICLES);
-  }
-  
-  sensitivity = document.querySelector('#sensitivity').value;
-  sens = map(sensitivity, 0, 1, 0, 0.5);
-  
-  let rawVol = mic.getLevel() * 1.2;       // raw mic volume
-  smoothedVol = lerp(smoothedVol, rawVol, easing); // eased version
-  // fireSize = map(smoothedVol, 0, sens, 50, 150, true);
-  fireSize = 75;
-  //text(smoothedVol.toFixed(4), 100, 100);
-
-  let spawnRate = 0;
-  if (smoothedVol > volumeThreshold) {
-    spawnRate = map(smoothedVol, volumeThreshold, sens, 0, 2, true); // Now uses threshold as the new "zero"
-  }
-  particleAccumulator += spawnRate;
-
-  // 🔄 Spawn whole particles based on accumulated float
-  while (particleAccumulator >= 1 && particles.length < MAX_PARTICLES) {
-    particles.push(createParticle());
-    particleAccumulator -= 1;
-  }
-
-  if (particles.length > 70) {
-    happy.textContent = "Wish granted.";
-    subtext.textContent = "New website launching soon!"
-  }
-
-  // Allow respawn if volume is enough
-  shouldRespawnParticles = spawnRate > 0.5;
-
-  translate(width / 2, height / 2.5 + fireYOffset);  
-  runParticles();
-
-  push();
-
-  imageMode(CORNER);
-  image(fire, -fireSize / 2, -fireSize, fireSize, fireSize * 1.28);
-  pop();
 }
 
 function runParticles() {
@@ -151,4 +177,11 @@ function windowResized() {
 
 function isMobileLayout() {
   return windowWidth < 700 || windowHeight < 700;
+}
+
+function mousePressed() {
+  if(!started) {
+    mic.start();
+    started = true
+  }
 }

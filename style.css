@@ -114,6 +114,23 @@ input::-webkit-slider-thumb {
   font-size: 0.9rem;
 }
 
+.mic {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translateX(-50%);
+  font-family: "DM Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  border: 1px solid black;
+}
+
+.mic:hover {
+  cursor: pointer;
+}
+
 @media (max-width: 700px) {
 
   .text-container {
