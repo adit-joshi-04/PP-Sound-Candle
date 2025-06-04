@@ -42,7 +42,7 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
 
-  mic = new p5.AudioIn();
+  
   //mic.start();
   
   
@@ -56,7 +56,11 @@ function setup() {
 }
 
 function draw() {
-  if (started) {  
+
+  
+
+  if (started && getAudioContext().state === 'running') {
+    // console.log(getAudioContext().state);  
     background('#FFD60D');
 
     happy.style.visibility = "visible";
@@ -94,7 +98,7 @@ function draw() {
     }
     
     sensitivity = document.querySelector('#sensitivity').value;
-    sens = map(sensitivity, 0, 1, 0.1, 0.5);
+    sens = map(sensitivity, 0, 1, 0.1, 1);
     
     let rawVol = mic.getLevel() * 1.2;       // raw mic volume
     smoothedVol = lerp(smoothedVol, rawVol, easing); // eased version
@@ -182,7 +186,9 @@ function isMobileLayout() {
 }
 
 function mousePressed() {
-  if(!started) {
+  if(!started || getAudioContext().state !== 'running') {
+    getAudioContext().resume();
+    mic = new p5.AudioIn();
     mic.start();
     started = true
   }
