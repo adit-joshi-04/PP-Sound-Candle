@@ -70,13 +70,15 @@ function draw() {
 
 
     if(isMobileLayout()) {
-      cakeY = 330;
-      fireYOffset = 80;
-      cakeWidth = 450;
+      cakeY = 260;
+      fireYOffset = 50;
+      cakeWidth = 400;
+      fireSize = 70;
     } else {
       cakeY = 300;
       fireYOffset = 0;
       cakeWidth = 587;
+      fireSize = 75;
     }
 
     let cakeHeight = cakeWidth * 1.097;
@@ -97,7 +99,7 @@ function draw() {
     let rawVol = mic.getLevel() * 1.2;       // raw mic volume
     smoothedVol = lerp(smoothedVol, rawVol, easing); // eased version
     // fireSize = map(smoothedVol, 0, sens, 50, 150, true);
-    fireSize = 75;
+    
     //text(smoothedVol.toFixed(4), 100, 100);
 
     let spawnRate = 0;
@@ -176,7 +178,7 @@ function windowResized() {
 }
 
 function isMobileLayout() {
-  return windowWidth < 700 || windowHeight < 700;
+  return windowWidth < 600 && windowHeight < 700;
 }
 
 function mousePressed() {

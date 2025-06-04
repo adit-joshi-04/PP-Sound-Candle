@@ -131,7 +131,7 @@ input::-webkit-slider-thumb {
   cursor: pointer;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
 
   .text-container {
     position: absolute;
@@ -162,7 +162,7 @@ input::-webkit-slider-thumb {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 32px;
+    padding: 16px;
   }
 
   .logo-intro {
@@ -176,12 +176,16 @@ input::-webkit-slider-thumb {
     width: fit-content;
     left: 50%;
     transform: translateX(-50%);
-    padding-top: 100px;
+    padding-top: 64px;
     padding-bottom: 32px;
     display: flex;
     flex-direction: column-reverse;
     gap: 16px;
     justify-content: space-between;
+  }
+
+  .slider-container {
+    scale: 0.8;
   }
 
   a {
