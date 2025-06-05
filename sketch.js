@@ -18,7 +18,7 @@ let particleAccumulator = 0;
 let smoothedVol = 0;
 let easing = 0.05; // between 0.05 and 0.15
 
-let volumeThreshold = 0.02; 
+let volumeThreshold = 0; 
 
 let happy;
 let startBtn;
@@ -57,7 +57,7 @@ function setup() {
 
 function draw() {
 
-  
+  console.log(getAudioContext().state);
 
   if (started && getAudioContext().state === 'running') {
     // console.log(getAudioContext().state);  
