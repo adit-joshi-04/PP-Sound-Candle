@@ -58,14 +58,17 @@ function setup() {
 function draw() {
 
   console.log(getAudioContext().state);
-  let audioContext = getAudioContext().state;
   
-  text("hello", width/2, 0);
   
 
   if (started && getAudioContext().state === 'running') {
     // console.log(getAudioContext().state);  
     background('#FFD60D');
+
+    fill('white');
+    textAlign(CENTER, CENTER);
+    textSize(32);
+    text(getAudioContext().state, width / 4, 200);
 
     happy.style.visibility = "visible";
     subtext.style.visibility = "visible";
