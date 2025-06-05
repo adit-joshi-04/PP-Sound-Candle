@@ -60,7 +60,7 @@ function draw() {
   console.log(getAudioContext().state);
   
   
-  text(getAudioContext().state, width/2, height/3);
+  text(getAudioContext().state, width/2, 0);
   
 
   if (started && getAudioContext().state === 'running') {
