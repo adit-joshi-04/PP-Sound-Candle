@@ -58,9 +58,9 @@ function setup() {
 function draw() {
 
   console.log(getAudioContext().state);
+  let audioContext = getAudioContext().state;
   
-  
-  text(getAudioContext().state, width/2, 0);
+  text("hello", width/2, 0);
   
 
   if (started && getAudioContext().state === 'running') {
