@@ -58,10 +58,10 @@ function setup() {
 function draw() {
 
   console.log(getAudioContext().state);
-  push();
-  translate(width/2, height/3);
-  text(getAudioContext().state);
-  pop();
+  
+  
+  text(getAudioContext().state, width/2, height/3);
+  
 
   if (started && getAudioContext().state === 'running') {
     // console.log(getAudioContext().state);  
