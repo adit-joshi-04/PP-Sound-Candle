@@ -25,6 +25,12 @@ let startBtn;
 
 let started = false;
 
+let micStream;
+let audioContext;
+let analyser;
+let dataArray;
+let volume = 0;
+
 window.addEventListener("DOMContentLoaded", () => {
   
 
@@ -53,22 +59,37 @@ function setup() {
   startBtn = document.querySelector('.mic');
   slider = document.querySelector('.slider-container');
 
+
+
 }
 
 function draw() {
 
-  console.log(getAudioContext().state);
-  
+  //console.log(getAudioContext().state);
+
   
 
-  if (started && getAudioContext().state === 'running') {
+  if (started) {
     // console.log(getAudioContext().state);  
     background('#FFD60D');
 
-    fill('white');
-    textAlign(CENTER, CENTER);
-    textSize(32);
-    text(getAudioContext().state, width / 4, 200);
+    if (analyser) {
+          analyser.getByteTimeDomainData(dataArray);
+
+          // Calculate volume as average deviation from center (128)
+          let sum = 0;
+          for (let i = 0; i < dataArray.length; i++) {
+            let val = dataArray[i] - 128;
+            sum += Math.abs(val);
+          }
+          volume = sum / dataArray.length;
+          //console.log(volume);
+    }
+
+    // fill('white');
+    // textAlign(CENTER, CENTER);
+    // textSize(32);
+    // text(getAudioContext().state, width / 4, 200);
 
     happy.style.visibility = "visible";
     subtext.style.visibility = "visible";
@@ -105,17 +126,18 @@ function draw() {
     }
     
     sensitivity = document.querySelector('#sensitivity').value;
-    sens = map(sensitivity, 0, 1, 0.1, 1);
+    sens = map(sensitivity, 0, 1, 10, 40);
     
-    let rawVol = mic.getLevel() * 1.2;       // raw mic volume
-    smoothedVol = lerp(smoothedVol, rawVol, easing); // eased version
+    //let rawVol = mic.getLevel() * 1.2;       // raw mic volume
+    smoothedVol = lerp(smoothedVol, volume, easing); // eased version
     // fireSize = map(smoothedVol, 0, sens, 50, 150, true);
     
     //text(smoothedVol.toFixed(4), 100, 100);
 
     let spawnRate = 0;
     if (smoothedVol > volumeThreshold) {
-      spawnRate = map(smoothedVol, volumeThreshold, sens, 0, 2, true); // Now uses threshold as the new "zero"
+      //spawnRate = map(smoothedVol, volumeThreshold, sens, 0, 2, true); // Now uses threshold as the new "zero"
+      spawnRate = volume/sens;
     }
     particleAccumulator += spawnRate;
 
@@ -125,7 +147,7 @@ function draw() {
       particleAccumulator -= 1;
     }
 
-    if (particles.length > 70) {
+    if (particles.length > 40) {
       happy.textContent = "Wish granted.";
       subtext.textContent = "New website launching soon!"
     }
@@ -192,11 +214,27 @@ function isMobileLayout() {
   return windowWidth < 600 && windowHeight < 700;
 }
 
-function mousePressed() {
-  if(!started || getAudioContext().state !== 'running') {
-    getAudioContext().resume();
-    mic = new p5.AudioIn();
-    mic.start();
-    started = true
+async function mousePressed() {
+  if(!started) {
+    // getAudioContext().resume();
+    // mic = new p5.AudioIn();
+    // mic.start();
+    // started = true
+
+    // Ask for mic access
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+        // Set up audio context and analyser
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioContext.createMediaStreamSource(micStream);
+
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 1024;
+        dataArray = new Uint8Array(analyser.fftSize);
+
+        source.connect(analyser);
+
+        started = true;
+
   }
 }
