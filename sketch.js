@@ -34,7 +34,7 @@ let volume = 0;
 window.addEventListener("DOMContentLoaded", () => {
   
 
-  document.querySelector('.mic').addEventListener("touchstart", () => {
+  document.querySelector('.permission-button').addEventListener("touchstart", () => {
     mousePressed();
   });
 });
