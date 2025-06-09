@@ -45,7 +45,7 @@ canvas {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 32px;
+  padding: 2.4%;
 }
 
 .logo-intro {
@@ -56,15 +56,29 @@ canvas {
 .email-sens-container {
   position: absolute;
   right: 0%;
-  padding: 32px;
+  padding: 2.4%;
   display: flex;
   flex-direction: column;
   gap: 16px;
   align-items: end;
 }
 
+.organiser {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: right;
+}
+
+.mail {
+  font-family: "degular mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 0.9rem;
+}
+
 a {
-  font-family: "DM Mono", monospace;
+  font-family: "DM Mono";
   font-weight: 400;
   font-style: normal;
   font-size: 0.9rem;
@@ -184,7 +198,7 @@ input::-webkit-slider-thumb {
     
   }
 
-  .logos-set {
+  /* .logos-set {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -193,14 +207,16 @@ input::-webkit-slider-thumb {
     justify-content: flex-start;
     align-items: flex-start;
     padding: 16px;
-  }
+  } */
 
   .logo-intro {
-    /* width: 7vw; */
+    
     width: 20vw;
   }
 
-  .email-sens-container {
+  
+
+  /* .email-sens-container {
     position: absolute;
     height: 100%;
     width: fit-content;
@@ -216,9 +232,9 @@ input::-webkit-slider-thumb {
 
   .slider-container {
     scale: 0.8;
-  }
+  } */
 
-  a {
+  /* a {
     background-color: white;
     text-align: center;
     padding: 2px 6px;
@@ -228,5 +244,5 @@ input::-webkit-slider-thumb {
     background-color: white;
     padding: 2px 6px;
     text-align: center;
-  }
+  } */
 }

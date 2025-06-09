@@ -126,7 +126,7 @@ function draw() {
     }
     
     sensitivity = document.querySelector('#sensitivity').value;
-    sens = map(sensitivity, 0, 1, 10, 40);
+    sens = map(sensitivity, 0, 1, 10, 50);
     
     //let rawVol = mic.getLevel() * 1.2;       // raw mic volume
     smoothedVol = lerp(smoothedVol, volume, easing); // eased version
@@ -213,6 +213,8 @@ function windowResized() {
 function isMobileLayout() {
   return windowWidth < 600 && windowHeight < 700;
 }
+
+
 
 async function mousePressed() {
   if(!started) {
