@@ -56,7 +56,7 @@ function setup() {
   imageMode(CENTER);
   happy = document.querySelector('.happy');
   subtext = document.querySelector('.subtext');
-  startBtn = document.querySelector('.mic');
+  startBtn = document.querySelector('.permission-button');
   slider = document.querySelector('.slider-container');
 
 
