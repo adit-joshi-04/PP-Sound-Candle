@@ -100,6 +100,7 @@ a {
   flex-direction: row;
   align-items: center;
   gap: 8px;
+  /* width: 105px; */
 }
 
 input {
@@ -108,6 +109,7 @@ input {
   height: 3.6px;
   top: 0;
   background-color: white;
+  width: 113px;
 
 }
 

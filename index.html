@@ -21,7 +21,7 @@
         <div class="organiser">
           <a class="mail" href="mailto:hello@studiopingpong.com">HELLO@STUDIOPINGPONG.COM</a>
 
-          <div class="text-mono" id="countdown">LAUNCHING IN- 00:00:00:00</div>
+          <div class="text-mono" id="countdown">T- 00:00:00:00</div>
         </div>
         <div class="slider-container">
           <div class="sensitivity-text">HUM</div>
@@ -84,7 +84,7 @@
 
         // Update the countdown display
         document.getElementById("countdown").innerText = 
-          `LAUNCHING IN- ${formattedDays}:${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+          `T- ${formattedDays}:${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
       }
 
       setInterval(updateCountdown, 1000);
