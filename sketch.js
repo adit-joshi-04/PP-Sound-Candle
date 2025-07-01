@@ -107,10 +107,13 @@ function draw() {
       cakeWidth = 400;
       fireSize = 70;
     } else {
-      cakeY = 300;
+      
+      
+      cakeY = 300/879 * height;
       fireYOffset = 0;
-      cakeWidth = 587;
-      fireSize = 75;
+      cakeWidth = 587/879 * height;
+      fireSize = 75/879 * height;
+      
     }
 
     let cakeHeight = cakeWidth * 1.097;
